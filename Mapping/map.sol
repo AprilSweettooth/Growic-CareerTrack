@@ -10,7 +10,7 @@ contract MyContract
         owner=msg.sender;
     }
 
-    struct student{
+    struct users{
         address userId;
         uint256 balance;
     }
