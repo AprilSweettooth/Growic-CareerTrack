@@ -13,8 +13,8 @@ contract MyContract{
     }
 
     mapping(address => uint) public balances;
-    
-    function deposit(address user, uin256 amount) public {
+    // add payable modifier 
+    function deposit(address user, uin256 amount) public payable {
         emit FundsDeposited(user, amount);
     }
 
