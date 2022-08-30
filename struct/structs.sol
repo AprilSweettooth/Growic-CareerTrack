@@ -7,7 +7,7 @@ contract StudentRegister{
     mapping (address=>user)users;
 
     constructor() public {
-        owner=msg.sender;
+        owner = msg.sender;
     }
 
     modifier onlyOwner {
