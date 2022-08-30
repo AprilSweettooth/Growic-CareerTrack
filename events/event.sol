@@ -5,16 +5,23 @@ contract MyContract{
     address public owner;
     uint public Fee;
 
+    event FundsDeposited(address user, uin256 amount);
+    event ProfileUpdated(address user);
+
     constructor() {
         owner = msg.sender;
     }
 
     mapping(address => uint) public balances;
 
-    function deposit(uint256 amount) public payable{
-        balances[msg.sender] += msg.value; 
+    function deposit(address user, uin256 amount) public {
+        emit FundsDeposited(user, amount);
     }
 
+    function FundsDeposited(address user, uint256 amount) public payable{
+        balances[msg.sender] += msg.value; 
+    }
+    
     function checkBalance(
     ) public view returns(uint256){
         return address(this).balance;
@@ -27,10 +34,16 @@ contract MyContract{
 
     User[] public user;
 
+    function ProfileUpdated(string calldata name, uint256 age) public {
+
+        user.push(User(name, age));
+        
+    }
+
     function setUserDetails(string calldata name, uint256 age) public onlyOwner {
             
-            user.push(User(name, age));
-
+            emit ProfileUpdated(string calldata name, uint256 age);
+            
     }
 
     function getUserDetail(string name) public view returns (address,string memory,uint256){
