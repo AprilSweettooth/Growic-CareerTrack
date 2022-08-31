@@ -1,5 +1,7 @@
 pragma solidity ^0.8.13;
 
+error AmountToSmall(uint sent, uint Fee);
+
 contract MyContract{
 
     address public owner;
@@ -21,21 +23,22 @@ contract MyContract{
     }
     
     struct User{
+        address userId;
         string  name;
         uint256 age;
     }
 
     User[] public user;
 
-    function setUserDetails(string calldata name, uint256 age) public onlyOwner {
+    function setUserDetails(address userId, string calldata name, uint256 age) public onlyOwner {
             
-            user.push(User(name, age));
+            user.push(User(userId, name, age));
 
     }
 
-    function getUserDetail(string name) public view returns (address,string memory,uint256){
+    function getUserDetail(address userId) public view returns (address,string memory,uint256){
         
-        return(user[name].name, user[name].age);
+        return(user[userId].userId, user[name].name, user[name].age);
 
     }
 
@@ -50,8 +53,13 @@ contract MyContract{
     }
 
     modifier value(uint256 _amount) {
-        if (value(_amount) < Fee)
-            revert AmountToSmall();
+        if (_amount < Fee) {
+            revert AmountToSmall({
+                sent: _amount,
+                Fee: Fee
+            });
+         }
+        _;
     }
 
     function withdraw(uint _amount) onlyOwner {
